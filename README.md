@@ -14,7 +14,7 @@ module in linkback-d8-pingback
 Install like a normal module.
 Go to Configure > Services > Linkbacks. From there you can
 configure how sending linkbacks must work: if using cron or if using manual
-process. There is also lso you can see there the list of received linkbacks.
+process. Also there you can see there the list of received linkbacks.
 
 ## Changes over vinculum-d7
 
