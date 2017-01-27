@@ -16,66 +16,66 @@ class LinkbackSendRulesEvent extends Event {
   const EVENT_NAME = 'rules_linkback_send';
 
   /**
-   * The source content.
+   * The source entity.
    *
-   * @vau Drupal\Core\Entity\ContentEntityInterface;
+   * @var \Drupal\Core\Entity\ContentEntityInterface
    */
   protected $source;
 
   /**
-   * The target url.
+   * The target Url.
    *
-   * @var string
+   * @var \Drupal\Core\Url
    */
-  protected $targetUrl;
+  protected $target;
 
   /**
-   * Getter for the sourceUrl.
+   * Getter for the source entity.
    *
-   * @return ContentEntityInterface
+   * @return \Drupal\Core\Entity\ContentEntityInterface
    */
   public function getSource() {
     return $this->source;
   }
 
   /**
-   * Setter for the source.
+   * Setter for the source entity.
    *
-   * @param $source
+   * @param \Drupal\Core\Entity\ContentEntityInterface $source
    */
-  public function setSource($source) {
+  public function setSource(ContentEntityInterface $source) {
     $this->source = $source;
   }
 
   /**
-   * Getter for the targetUrl.
+   * Getter for the target Url.
    *
-   * @return Url
+   * @return \Drupal\Core\Url
    */
-  public function getTargetUrl() {
-    return $this->targetUrl;
+  public function getTarget() {
+    return $this->target;
   }
 
   /**
-   * Setter for the targetUrl.
+   * Setter for the target Url.
    *
-   * @param $url
+   * @param \Drupal\Core\Url $url
    */
-  public function setTargetUrl($url) {
-    $this->targetUrl = $url;
+  public function setTargetUrl(Url $url) {
+    $this->target = $url;
   }
 
   /**
    * Constructs the object.
    *
-   * @param \Drupal\Core\Entity\ContentEntityInterface
-   *   The source content.
-   * @param string
-   *   The target url.
+   * @param \Drupal\Core\Entity\ContentEntityInterface $source
+   *   The source Url.
+   * @param \Drupal\Core\Url $target
+   *   The target Url.
    */
-  public function __construct(ContentEntityInterface $source, $target_url) {
+  public function __construct(ContentEntityInterface $source, Url $target) {
     $this->source = $source;
-    $this->targetUrl = $target_url;
+    $this->target = $target;
   }
 
 }

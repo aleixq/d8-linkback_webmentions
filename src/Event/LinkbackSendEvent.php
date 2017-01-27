@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\linkback\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -16,62 +17,64 @@ class LinkbackSendEvent extends Event {
   /**
    * The source url.
    *
-   * @var Url
+   * @var \Drupal\Core\Url
    */
-  protected $sourceUrl;
+  protected $source;
 
   /**
    * The target url.
    *
-   * @var Url
+   * @var \Drupal\Core\Url
    */
-  protected $targetUrl;
+  protected $target;
 
   /**
-   * Getter for the sourceUrl.
+   * Getter for the source Url.
    *
-   * @return Url
+   * @return \Drupal\Core\Url
    */
-  public function getSourceUrl() {
-    return $this->sourceUrl;
+  public function getSource() {
+    return $this->source;
   }
 
   /**
-   * Setter for the sourceUrl.
+   * Setter for the source Url.
    *
-   * @param $url
+   * @param \Drupal\Core\Url
    */
-  public function setSourceUrl($url) {
-    $this->sourceUrl = $url;
+  public function setSourceUrl($source) {
+    $this->source = $source;
   }
 
   /**
-   * Getter for the targetUrl.
+   * Getter for the target Url.
    *
-   * @return Url
+   * @return \Drupal\Core\Url
    */
-  public function getTargetUrl() {
-    return $this->targetUrl;
+  public function getTarget() {
+    return $this->target;
   }
 
   /**
-   * Setter for the targetUrl.
+   * Setter for the target Url.
    *
-   * @param $url
+   * @param \Drupal\Core\Url
    */
-  public function setTargetUrl($url) {
-    $this->targetUrl = $url;
+  public function setTarget($target) {
+    $this->target = $target;
   }
 
   /**
    * Constructs the object.
    *
-   * @param \Drupal\user\UserInterface $account
-   *   The account of the user logged in.
+   * @param \Drupal\Core\Url $source
+   *   The source Url.
+   * @param \Drupal\Core\Url $target
+   *   The target Url.
    */
-  public function __construct(Url $source_url, Url $target_url) {
-    $this->sourceUrl = $source_url;
-    $this->targetUrl = $target_url;
+  public function __construct(Url $source, Url $target) {
+    $this->source = $source;
+    $this->target = $target;
   }
 
 }
