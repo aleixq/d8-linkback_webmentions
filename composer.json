@@ -10,5 +10,7 @@
     "issues": "http://drupal.org/project/issues/linkback",
     "source": "http://cgit.drupalcode.org/linkback"
   },
-  "require": { }
+  "require": {
+    "symfony/dom-crawler": "~2.0"
+  }
 }
