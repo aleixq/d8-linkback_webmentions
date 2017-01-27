@@ -2,14 +2,10 @@
 
 /**
  * @file
- * Contains linkback.module..
+ * Contains linkback.module.
  */
 
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Queue\QueueFactory;
-use Drupal\Core\Queue\QueueInterface;
-use Symfony\Component\DomCrawler\Crawler;
-
 use Drupal\Core\Routing\RouteMatchInterface;
 
 // User-agent used when extracting titles and excerpts.
@@ -30,7 +26,6 @@ define('LINKBACK_ERROR_REMOTE_URL_MISSING_LINK', 4);
 
 /**
  * Implements hook_help().
- * @param string $route_name
  */
 function linkback_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
