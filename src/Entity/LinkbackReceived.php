@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\linkback\Entity\LinkbackReceived.
- */
 
 namespace Drupal\linkback\Entity;
 
@@ -12,14 +8,10 @@ use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DomCrawler\Crawler;
-use RuntimeException;
-use Guzzle\Http\Client;
 
 /**
  * Defines the LinkbackReceived entity for received ref-backs.
@@ -56,25 +48,31 @@ use Guzzle\Http\Client;
 class LinkbackReceived extends ContentEntityBase implements LinkbackReceivedInterface {
 
   use EntityChangedTrait;
+
   /**
-   * The error array in format [@int last_error_code, @string last_error_message].
+   * The error array in format.
    *
-   * @array last_error
+   * [ @int code, @string message ].
+   *
+   * @var array
    */
-  protected $last_error;
+  protected $lastError;
 
   /**
    * {@inheritdoc}
    */
   public function getLastError() {
-    return $this->last_error;
+    return $this->lastError;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setLastError($error_code, $error_message) {
-    $this->last_error = [$error_code, $error_message];
+    $this->lastError = [
+      $error_code,
+      $error_message,
+    ];
     return $this;
   }
 
@@ -179,7 +177,6 @@ class LinkbackReceived extends ContentEntityBase implements LinkbackReceivedInte
    */
   public function setHandler($handler) {
     return $this->get('handler')->value = $handler;
-    return $this;
   }
 
   /**
@@ -193,7 +190,7 @@ class LinkbackReceived extends ContentEntityBase implements LinkbackReceivedInte
   /**
    * {@inheritdoc}
    */
-  public function setcreatedtime($created) {
+  public function setCreated($created) {
     $this->get('created')->value = $created;
     return $this;
   }
@@ -201,21 +198,22 @@ class LinkbackReceived extends ContentEntityBase implements LinkbackReceivedInte
   /**
    * Given a content_id, attempt to lookup its url.
    *
-   * @param Bool $all_
-   *   langs
-   *   If wants all langs urls.
+   * @param bool $all_langs
+   *   If wants all languages urls.
    *
-   * @return String|Array
-   * The Url of the content id, or array with all languages urls.
+   * @return string|array
+   *   The Url of the content id, or array with all languages urls.
    */
   protected function getLocalUrl($all_langs = FALSE) {
     if (!$all_langs) {
       // WITHOUT LANGS
-      // TODO DO NOT PRESUPPOSE it is a node entity. ?follow discover strategy as in constranit validator.
+      // TODO DO NOT PRESUPPOSE it is a node entity. ?follow discover strategy
+      // as in constranit validator.
       $local_node_url = Url::fromUserInput("/node/{$this->getRefContent()}")->setAbsolute()->toString();
     }
     else {
-      // TODO DO NOT PRESUPPOSE it is a node entity. ?follow discover strategy as in constranit validator.
+      // TODO DO NOT PRESUPPOSE it is a node entity. ?follow discover strategy
+      // as in constranit validator.
       $langs = \Drupal::languageManager()->getLanguages();
       $current_lang = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_URL)->getId();
       // RELATIVE NO LANG URL.
@@ -308,12 +306,14 @@ class LinkbackReceived extends ContentEntityBase implements LinkbackReceivedInte
    * @param string $pagelinkedto
    *   The Url of the target site.
    *
-   * @return
-   *   An array with title and excerpt or throws exception in case of problems[ means LINKBACK_ERROR_REMOTE_URL_MISSING_LINK ].
+   * @return array
+   *   An array with title and excerpt or throws exception in case of problems.
+   *   [ means LINKBACK_ERROR_REMOTE_URL_MISSING_LINK ].
+   *
+   * @throws
    */
   protected function getRemoteData($pagelinkedfrom, $pagelinkedto) {
     $client = \Drupal::httpClient();
-    // $request = $client->createRequest('GET', $pagelinkedfrom.$pagelinkedto, [] );.
     try {
       $response = $client->get($pagelinkedfrom, array('headers' => array('Accept' => 'text/plain')));
       $data = $response->getBody(TRUE);
@@ -343,7 +343,7 @@ class LinkbackReceived extends ContentEntityBase implements LinkbackReceivedInte
    * @param string $data
    *   The HTML from the source site.
    *
-   * @return
+   * @return array|false
    *   An array with title and excerpt or FALSE in case of problems.
    */
   protected function getTitleExcerpt($data) {
@@ -374,11 +374,6 @@ class LinkbackReceived extends ContentEntityBase implements LinkbackReceivedInte
 
   /**
    * Save a received ref-back.
-   *
-   * @return Int
-   * - SAVED_NEW     If a new ref-back was saved.
-   * - SAVED_UPDATED If an existing ref-back was updated.
-   * - FALSE         If the request didn't validate.
    */
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);

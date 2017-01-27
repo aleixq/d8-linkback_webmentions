@@ -1,15 +1,10 @@
 <?php
+
 namespace Drupal\linkback\Form;
-/**
- * @file
- * Contains \Drupal\linkback\Form\LinkbackSenderQueueForm.
- */
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Queue\QueueFactory;
-use Drupal\Core\Queue\QueueInterface;
-use Drupal\Core\Queue\QueueWorkerInterface;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
 use Drupal\Core\Queue\SuspendQueueException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -21,17 +16,21 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 class LinkbackSenderQueueForm extends FormBase {
 
   /**
+   * The queue factory.
+   *
    * @var QueueFactory
    */
   protected $queueFactory;
 
   /**
+   * The quqeue manager.
+   *
    * @var QueueWorkerManagerInterface
    */
   protected $queueManager;
 
   /**
-   * The gnusocial settings config object.
+   * The config factory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
@@ -40,7 +39,11 @@ class LinkbackSenderQueueForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(QueueFactory $queue, QueueWorkerManagerInterface $queue_manager, ConfigFactoryInterface $config_factory) {
+  public function __construct(
+      QueueFactory $queue,
+      QueueWorkerManagerInterface $queue_manager,
+      ConfigFactoryInterface $config_factory
+  ) {
     $this->queueFactory = $queue;
     $this->queueManager = $queue_manager;
     $this->configFactory = $config_factory;
@@ -60,7 +63,8 @@ class LinkbackSenderQueueForm extends FormBase {
   /**
    * Gets the cron or manual queue.
    *
-   * @return string the name of the QueueFactory
+   * @return string
+   *   The name of the QueueFactory.
    */
   protected function getQueue() {
     $config = $this->configFactory->get('linkback.settings');
@@ -68,17 +72,17 @@ class LinkbackSenderQueueForm extends FormBase {
   }
 
   /**
-   * {@inheritdoc}.
+   * {@inheritdoc}
    */
   public function getFormId() {
     return 'linkback_sender_queue_form';
   }
 
   /**
-   * {@inheritdoc}.
+   * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    /** @var QueueInterface $queue */
+    /** @var \Drupal\Core\Queue\QueueInterface $queue */
     $queue = $this->queueFactory->get($this->getQueue());
 
     $form['help'] = array(
@@ -107,7 +111,7 @@ class LinkbackSenderQueueForm extends FormBase {
    * {@inheritdoc}
    */
   public function deleteQueue(array &$form, FormStateInterface $form_state) {
-    /** @var QueueInterface $queue */
+    /** @var \Drupal\Core\Queue\QueueInterface $queue */
     $queue = $this->queueFactory->get($this->getQueue());
     $queue->deleteQueue();
   }
@@ -116,9 +120,9 @@ class LinkbackSenderQueueForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    /** @var QueueInterface $queue */
+    /** @var \Drupal\Core\Queue\QueueInterface $queue */
     $queue = $this->queueFactory->get($this->getQueue());
-    /** @var QueueWorkerInterface $queue_worker */
+    /** @var \Drupal\Core\Queue\QueueWorkerInterface $queue_worker */
     $queue_worker = $this->queueManager->createInstance($this->getQueue());
 
     while ($item = $queue->claimItem()) {

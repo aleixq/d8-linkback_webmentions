@@ -39,7 +39,7 @@ class UnregisteredLinkbackConstraintValidator extends ConstraintValidator implem
   /**
    * Entity Field Manager.
    *
-   * @var Drupal/Core/Entity/EntityFieldManagerInterface
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
    */
   protected $fieldManager;
 
@@ -59,8 +59,15 @@ class UnregisteredLinkbackConstraintValidator extends ConstraintValidator implem
    *   The node storage handler.
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager
    *   The entity field manager.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity field manager.
    */
-  public function __construct(EntityStorageInterface $linkback_entity_storage, EntityStorageInterface $node_entity_storage, EntityFieldManagerInterface $field_manager, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(
+      EntityStorageInterface $linkback_entity_storage,
+      EntityStorageInterface $node_entity_storage,
+      EntityFieldManagerInterface $field_manager,
+      EntityTypeManagerInterface $entity_type_manager
+  ) {
     $this->linkbackStorage = $linkback_entity_storage;
     $this->nodeStorage = $node_entity_storage;
     $this->fieldManager = $field_manager;
@@ -71,7 +78,12 @@ class UnregisteredLinkbackConstraintValidator extends ConstraintValidator implem
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('entity.manager')->getStorage('linkback_received'), $container->get('entity.manager')->getStorage('node'), $container->get('entity_field.manager'), $container->get('entity_type.manager'));
+    return new static(
+      $container->get('entity.manager')->getStorage('linkback_received'),
+      $container->get('entity.manager')->getStorage('node'),
+      $container->get('entity_field.manager'),
+      $container->get('entity_type.manager')
+    );
   }
 
   /**
@@ -83,12 +95,27 @@ class UnregisteredLinkbackConstraintValidator extends ConstraintValidator implem
 
     // Do not allow duplicated linkback registration.
     if (isset($source_uri) && isset($target_id)) {
-      $linkbacks = $this->linkbackStorage->loadByProperties(array('url' => $source_uri, 'ref_content' => $target_id));
+      $linkbacks = $this->linkbackStorage->loadByProperties(
+        array(
+          'url' => $source_uri,
+          'ref_content' => $target_id,
+        )
+      );
+
       if (!empty($linkbacks)) {
-        $this->context->buildViolation($constraint->linkbackRegistered, array('%url' => $source_uri, '%ref_content' => $target_id))->setCause((string) t('The ref-back has previously been registered.'))->setCode(LINKBACK_ERROR_REFBACK_ALREADY_REGISTERED)->addViolation();
+        $this->context->buildViolation(
+          $constraint->linkbackRegistered,
+          array(
+            '%url' => $source_uri,
+            '%ref_content' => $target_id,
+          )
+        )
+          ->setCause((string) t('The ref-back has previously been registered.'))
+          ->setCode(LINKBACK_ERROR_REFBACK_ALREADY_REGISTERED)
+          ->addViolation();
       }
 
-      // If content hasn't the receive linkbacks enabled.TODO.
+      // TODO If content hasn't the receive linkbacks enabled.
       $content = FALSE;
       $receive_allowed = TRUE;
 
@@ -99,14 +126,23 @@ class UnregisteredLinkbackConstraintValidator extends ConstraintValidator implem
         if ($content) {
           $field_name = array_keys($field)[0];
           $field_receive_allowed = $content->get($field_name)->linkback_receive;
-          $default = $content->get($field_name)->getFieldDefinition()->getDefaultValueLiteral()[0]['linkback_receive'];
+          $default = $content->get($field_name)->getFieldDefinition()
+            ->getDefaultValueLiteral()[0]['linkback_receive'];
           $receive_allowed = (isset($field_receive_allowed)) ? $field_receive_allowed : $default;
           break;
         }
       }
       if (!$content or !$receive_allowed) {
         // Content doesn't exists or receive not allowed.
-        $this->context->buildViolation($constraint->linkbackDisabled, array('%ref_content' => $target_id))->setCause((string) t('The ref-back is not allowed or is misconfigured.'))->setCode(LINKBACK_ERROR_LOCAL_NODE_REFBACK_NOT_ALLOWED)->addViolation();
+        $this->context->buildViolation(
+          $constraint->linkbackDisabled,
+          array(
+            '%ref_content' => $target_id,
+          )
+        )
+          ->setCause((string) t('The ref-back is not allowed or is misconfigured.'))
+          ->setCode(LINKBACK_ERROR_LOCAL_NODE_REFBACK_NOT_ALLOWED)
+          ->addViolation();
       }
     }
   }

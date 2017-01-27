@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\linkback\LinkbackReceivedAccessControlHandler.
- */
 
 namespace Drupal\linkback;
 
@@ -24,13 +20,17 @@ class LinkbackReceivedAccessControlHandler extends EntityAccessControlHandler {
   protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
     switch ($operation) {
       case 'view':
-        return AccessResult::allowedIfHasPermission($account, 'access linkbacks');
-
-      break;
+        return AccessResult::allowedIfHasPermission(
+          $account,
+          'access linkbacks'
+        );
 
       default:
-        return AccessResult::allowedIfHasPermission($account, 'administer linkback');
-      break;
+        return AccessResult::allowedIfHasPermission(
+          $account,
+          'administer linkback'
+        );
+
     }
   }
 
@@ -38,7 +38,10 @@ class LinkbackReceivedAccessControlHandler extends EntityAccessControlHandler {
    * {@inheritdoc}
    */
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
-    return AccessResult::allowedIfHasPermission($account, 'administer linkback');
+    return AccessResult::allowedIfHasPermission(
+      $account,
+      'administer linkback'
+    );
   }
 
 }

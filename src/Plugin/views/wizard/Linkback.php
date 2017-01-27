@@ -2,7 +2,6 @@
 
 namespace Drupal\linkback\Plugin\views\wizard;
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\wizard\WizardPluginBase;
 
 /**
@@ -14,5 +13,4 @@ use Drupal\views\Plugin\views\wizard\WizardPluginBase;
  *   title = @Translation("Linkback")
  * )
  */
-class Linkback extends WizardPluginBase {
-}
+class Linkback extends WizardPluginBase {}

@@ -1,15 +1,16 @@
 <?php
 
 namespace Drupal\linkback;
+
 use Drupal\views\EntityViewsData;
 
 /**
- *
+ * LinkbackViewsData Class.
  */
 class LinkbackViewsData extends EntityViewsData {
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getViewsData() {
     // Start with the Views information provided by the base class.

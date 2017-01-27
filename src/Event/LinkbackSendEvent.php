@@ -29,42 +29,6 @@ class LinkbackSendEvent extends Event {
   protected $target;
 
   /**
-   * Getter for the source Url.
-   *
-   * @return \Drupal\Core\Url
-   */
-  public function getSource() {
-    return $this->source;
-  }
-
-  /**
-   * Setter for the source Url.
-   *
-   * @param \Drupal\Core\Url
-   */
-  public function setSourceUrl($source) {
-    $this->source = $source;
-  }
-
-  /**
-   * Getter for the target Url.
-   *
-   * @return \Drupal\Core\Url
-   */
-  public function getTarget() {
-    return $this->target;
-  }
-
-  /**
-   * Setter for the target Url.
-   *
-   * @param \Drupal\Core\Url
-   */
-  public function setTarget($target) {
-    $this->target = $target;
-  }
-
-  /**
    * Constructs the object.
    *
    * @param \Drupal\Core\Url $source
@@ -74,6 +38,46 @@ class LinkbackSendEvent extends Event {
    */
   public function __construct(Url $source, Url $target) {
     $this->source = $source;
+    $this->target = $target;
+  }
+
+  /**
+   * Getter for the source Url.
+   *
+   * @return \Drupal\Core\Url
+   *   The source Url.
+   */
+  public function getSource() {
+    return $this->source;
+  }
+
+  /**
+   * Setter for the source Url.
+   *
+   * @param \Drupal\Core\Url $source
+   *   The source Url.
+   */
+  public function setSource(Url $source) {
+    $this->source = $source;
+  }
+
+  /**
+   * Getter for the target Url.
+   *
+   * @return \Drupal\Core\Url
+   *   The target Url.
+   */
+  public function getTarget() {
+    return $this->target;
+  }
+
+  /**
+   * Setter for the target Url.
+   *
+   * @param \Drupal\Core\Url $target
+   *   The target Url.
+   */
+  public function setTarget(Url $target) {
     $this->target = $target;
   }
 

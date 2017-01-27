@@ -2,11 +2,8 @@
 
 namespace Drupal\linkback\Plugin\Field\FieldType;
 
-use Drupal\Component\Utility\Random;
-use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\DataDefinition;
 
@@ -32,7 +29,6 @@ class LinkbackHandlerItem extends FieldItemBase {
       ->setLabel(new TranslatableMarkup('Receive linkbacks'));
     $properties['linkback_send'] = DataDefinition::create('integer')
       ->setLabel(new TranslatableMarkup('Send linkbacks'));
-
     return $properties;
   }
 
@@ -52,7 +48,6 @@ class LinkbackHandlerItem extends FieldItemBase {
         ),
       ),
     );
-
     return $schema;
   }
 

@@ -1,14 +1,7 @@
 <?php
-/**
- * @file
- * Contains Drupal\linkback\Plugin\QueueWorker\LinkbackSender.php
- */
 
 namespace Drupal\linkback\Plugin\QueueWorker;
 
-
-use Drupal\linkback\Exception\LinkbackException;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -35,28 +28,32 @@ abstract class LinkbackSender extends QueueWorkerBase implements ContainerFactor
   /**
    * Entity Field Manager.
    *
-   * @var Drupal/Core/Entity/EntityFieldManagerInterface
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
    */
   protected $fieldManager;
 
   /**
    * The event dispatcher.
    *
-   * @var Symfony\Component\EventDispatcher\EventDispatcher
+   * @var \Symfony\Component\EventDispatcher\EventDispatcher
    */
   protected $eventDispatcher;
 
   /**
    * Creates a new LinkbackSender object.
    *
-   * @param \Drupal/Core/Entity/EntityFieldManagerInterface $field_manager
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager
    *   Entity Field Manager.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Symfony\Component\EventDispatcher\EventDispatcher
+   * @param \Drupal\Component\EventDispatcher\ContainerAwareEventDispatcher $event_dispatcher
    *   The event dispatcher.
    */
-  public function __construct(EntityFieldManagerInterface $field_manager, EntityTypeManagerInterface $entity_type_manager, ContainerAwareEventDispatcher $event_dispatcher) {
+  public function __construct(
+      EntityFieldManagerInterface $field_manager,
+      EntityTypeManagerInterface $entity_type_manager,
+      ContainerAwareEventDispatcher $event_dispatcher
+  ) {
     $this->fieldManager = $field_manager;
     $this->entityTypeManager = $entity_type_manager;
     $this->eventDispatcher = $event_dispatcher;
@@ -65,7 +62,12 @@ abstract class LinkbackSender extends QueueWorkerBase implements ContainerFactor
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(
+      ContainerInterface $container,
+      array $configuration,
+      $plugin_id,
+      $plugin_definition
+  ) {
     return new static(
       $container->get('entity_field.manager'),
       $container->get('entity_type.manager'),
@@ -77,7 +79,7 @@ abstract class LinkbackSender extends QueueWorkerBase implements ContainerFactor
    * {@inheritdoc}
    */
   public function processItem($data) {
-    /** @var EntityInterface|Bool $content */
+    /** @var \Drupal\Core\Entity\EntityInterface|bool $content */
     $content = FALSE;
     $send_allowed = TRUE;
 
@@ -100,8 +102,7 @@ abstract class LinkbackSender extends QueueWorkerBase implements ContainerFactor
       return;
     }
     // SEND LINKBACKS VIA EVENT SUBSCRIBER
-    // TODO allow other type of fields than body to be scanned to send linkbacks.
-    /** @var $urls string[] **/
+    // TODO allow other type of fields to be scanned to send linkbacks.
     $urls = $this->getBodyUrls($content->get('body')->value);
 
     foreach ($urls as $target_url) {
@@ -113,17 +114,17 @@ abstract class LinkbackSender extends QueueWorkerBase implements ContainerFactor
       $event = new LinkbackSendRulesEvent($content, $target_url->setOption('absolute', TRUE)->toString());
       $this->eventDispatcher->dispatch(LinkbackSendRulesEvent::EVENT_NAME, $event);
     }
-
   }
 
   /**
    * Get urls from a body html.
    *
    * @param string $body
-   *   The html body
+   *   The html body.
    *
-   * @return
-   *   An array with title and excerpt or throws exception in case of problems[ means LINKBACK_ERROR_REMOTE_URL_MISSING_LINK ].
+   * @return array
+   *   An array with title and excerpt or throws exception in case of problems.
+   *   [ means LINKBACK_ERROR_REMOTE_URL_MISSING_LINK ].
    */
   protected function getBodyUrls($body) {
     $crawler = new Crawler($body);

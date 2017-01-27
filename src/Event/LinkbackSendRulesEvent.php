@@ -33,6 +33,7 @@ class LinkbackSendRulesEvent extends Event {
    * Getter for the source entity.
    *
    * @return \Drupal\Core\Entity\ContentEntityInterface
+   *   The source entity.
    */
   public function getSource() {
     return $this->source;
@@ -42,6 +43,7 @@ class LinkbackSendRulesEvent extends Event {
    * Setter for the source entity.
    *
    * @param \Drupal\Core\Entity\ContentEntityInterface $source
+   *   The source entity.
    */
   public function setSource(ContentEntityInterface $source) {
     $this->source = $source;
@@ -51,6 +53,7 @@ class LinkbackSendRulesEvent extends Event {
    * Getter for the target Url.
    *
    * @return \Drupal\Core\Url
+   *   The target Url.
    */
   public function getTarget() {
     return $this->target;
@@ -60,6 +63,7 @@ class LinkbackSendRulesEvent extends Event {
    * Setter for the target Url.
    *
    * @param \Drupal\Core\Url $url
+   *   The target Url.
    */
   public function setTargetUrl(Url $url) {
     $this->target = $url;

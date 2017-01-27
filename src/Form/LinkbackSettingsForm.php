@@ -4,8 +4,7 @@ namespace Drupal\linkback\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
+
 /**
  * Class LinkbackSettingsForm.
  *
@@ -48,9 +47,11 @@ class LinkbackSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $config = $this->config('linkback.settings');
     parent::validateForm($form, $form_state);
-    // TODO CHECK IF IT CAN BE CHANGED (no items in queue!!!);(provide link to process queue.
+
+    $config = $this->config('linkback.settings');
+    // TODO CHECK IF IT CAN BE CHANGED (no items in queue!!!);
+    // TODO provide link to process queue.
     /** @var QueueFactory $queue_factory */
     $queue_factory = \Drupal::service('queue');
     /** @var QueueInterface $queue */
@@ -58,7 +59,6 @@ class LinkbackSettingsForm extends ConfigFormBase {
     if ($queue->numberOfItems() > 0) {
       $form_state->setErrorByName('use_cron', t('Could not change this options as @qitems items remain in queue, run or remove these in queue tab', array('@qitems' => $queue->numberOfItems())));
     }
-
   }
 
   /**

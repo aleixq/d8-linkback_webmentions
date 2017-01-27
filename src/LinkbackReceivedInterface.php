@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\linkback\LinkbackReceivedInterface.
- */
 
 namespace Drupal\linkback;
 
@@ -16,6 +12,4 @@ use Drupal\Core\Entity\EntityChangedInterface;
  *
  * @ingroup linkback
  */
-interface LinkbackReceivedInterface extends ContentEntityInterface, EntityChangedInterface {
-
-}
+interface LinkbackReceivedInterface extends ContentEntityInterface, EntityChangedInterface {}

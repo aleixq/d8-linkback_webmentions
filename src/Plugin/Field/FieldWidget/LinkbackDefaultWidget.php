@@ -3,7 +3,6 @@
 namespace Drupal\linkback\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -33,15 +32,32 @@ class LinkbackDefaultWidget extends WidgetBase implements ContainerFactoryPlugin
   /**
    * {@inheritdoc}
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, AccountInterface $current_user) {
-    parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, array());
+  public function __construct(
+      $plugin_id,
+      $plugin_definition,
+      FieldDefinitionInterface $field_definition,
+      array $settings,
+      AccountInterface $current_user
+  ) {
+    parent::__construct(
+      $plugin_id,
+      $plugin_definition,
+      $field_definition,
+      $settings,
+      array()
+    );
     $this->currentUser = $current_user;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(
+      ContainerInterface $container,
+      array $configuration,
+      $plugin_id,
+      $plugin_definition
+  ) {
     return new static(
       $plugin_id,
       $plugin_definition,
@@ -53,9 +69,7 @@ class LinkbackDefaultWidget extends WidgetBase implements ContainerFactoryPlugin
 
   /**
    * {@inheritdoc}
-   */
-
-  /**
+   *
    * TODO allow extra linkbacks methods here.
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
@@ -65,9 +79,7 @@ class LinkbackDefaultWidget extends WidgetBase implements ContainerFactoryPlugin
 
   /**
    * {@inheritdoc}
-   */
-
-  /**
+   *
    * TODO allow extra linkbacks methods here.
    */
   public function settingsSummary() {

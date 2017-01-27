@@ -23,7 +23,7 @@ class UnregisteredLinkbackConstraint extends CompositeConstraintBase {
   public $linkbackRegistered = 'The linkback from url (%url) to content with id %ref_content is already registered.';
 
   /**
-   * Message shown when a linkback receive is not enabled for this content id. TODO.
+   * Message shown when a linkback receive is not enabled for this content id.
    *
    * @var string
    */
@@ -33,7 +33,10 @@ class UnregisteredLinkbackConstraint extends CompositeConstraintBase {
    * {@inheritdoc}
    */
   public function coversFields() {
-    return ['url', 'ref_content'];
+    return [
+      'url',
+      'ref_content',
+    ];
   }
 
 }
