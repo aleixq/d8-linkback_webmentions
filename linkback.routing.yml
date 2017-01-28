@@ -1,19 +1,19 @@
 linkback.queue:
-  path: '/admin/linkback/queue'
+  path: '/admin/config/linkback/queue'
   defaults:
     _form: '\Drupal\linkback\Form\LinkbackSenderQueueForm'
     _title: 'Linkback sender'
   requirements:
     _permission: 'administer linkback'
 linkback.settings:
-  path: '/admin/linkback'
+  path: '/admin/config/linkback'
   defaults:
     _form: '\Drupal\linkback\Form\LinkbackSettingsForm'
     _title: 'Linkback'
   requirements:
     _permission: 'administer linkback'
 linkback.received_linkbacks:
-  path: '/admin/linkback/received'
+  path: '/admin/config/linkback/received'
   defaults:
     _title: 'Received linkbacks'
     _entity_list: 'linkback_received'
