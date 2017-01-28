@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 namespace Drupal\linkback;
 
 use Drupal\Core\Entity\ContentEntityInterface;

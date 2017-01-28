@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 namespace Drupal\linkback\Event;
 
 use Symfony\Component\EventDispatcher\Event;

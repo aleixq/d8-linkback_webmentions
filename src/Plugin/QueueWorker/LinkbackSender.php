@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 namespace Drupal\linkback\Plugin\QueueWorker;
 
 use Drupal\Core\Entity\EntityFieldManagerInterface;

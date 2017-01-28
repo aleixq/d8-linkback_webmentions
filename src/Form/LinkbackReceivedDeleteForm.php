@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 namespace Drupal\linkback\Form;
 
 use Drupal\Core\Entity\ContentEntityDeleteForm;

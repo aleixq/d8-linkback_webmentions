@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 namespace Drupal\linkback\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemInterface;

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 namespace Drupal\linkback\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldItemBase;
