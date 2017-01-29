@@ -79,7 +79,7 @@ class UnregisteredLinkbackConstraintValidator extends ConstraintValidator implem
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('linkback_received'),
+      $container->get('entity.manager')->getStorage('linkback'),
       $container->get('entity.manager')->getStorage('node'),
       $container->get('entity_field.manager'),
       $container->get('entity_type.manager')

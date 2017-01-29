@@ -5,12 +5,14 @@ namespace Drupal\linkback\Plugin\views\wizard;
 use Drupal\views\Plugin\views\wizard\WizardPluginBase;
 
 /**
- * Provides a views wizard for My Entity entities.
+ * Provides a views wizard for Linkback entities.
  *
  * @ViewsWizard(
  *   id = "linkback",
- *   base_table = "linkback_received",
+ *   base_table = "linkback",
  *   title = @Translation("Linkback")
  * )
  */
-class Linkback extends WizardPluginBase {}
+class Linkback extends WizardPluginBase {
+
+}
