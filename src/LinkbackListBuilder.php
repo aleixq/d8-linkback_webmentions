@@ -10,7 +10,7 @@ use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
- * Defines a class to build a listing of linkback_received entities.
+ * Defines a class to build a listing of linkback entities.
  *
  * @see \Drupal\linkback\Entity\Linkback
  */
@@ -45,7 +45,7 @@ class LinkbackListBuilder extends EntityListBuilder {
     $row['excerpt'] = $entity->getExcerpt();
     $row['origin'] = $entity->getOrigin();
     $row['handler'] = $entity->getHandler();
-    $row['ref_content'] = $entity->ref_content->referencedEntities()[0]->link();;
+    $row['ref_content'] = $entity->ref_content->referencedEntities()[0]->link();
     $row['remote_url'] = $entity->getUrl();
     $row['date'] = $entity->getCreatedTime();
     return $row + parent::buildRow($entity);

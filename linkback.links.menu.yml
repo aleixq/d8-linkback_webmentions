@@ -1,6 +1,6 @@
 linkback.settings:
   title: 'Linkback settings'
-  route_name: linkback.settings
+  route_name: linkback.admin_settings
   description: 'Configure linkbacks.'
   parent: system.admin_config_services
   weight: 99
