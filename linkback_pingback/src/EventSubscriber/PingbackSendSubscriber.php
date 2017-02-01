@@ -2,6 +2,8 @@
 
 /**
  * @file
+ * PingbackSendSubscriber implements EventSubscriberInterface. Can locate XMLRPC endpoint and send pingback.
+ * todo: Could be simplified using mention-client library which includes same type of functions.
  */
 
 namespace Drupal\linkback_pingback\EventSubscriber;
@@ -14,11 +16,11 @@ use \Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * Class LinkbackSendSubscriber.
+ * Class PingbackSendSubscriber.
  *
  * @package Drupal\linkback_pingback
  */
-class LinkbackSendSubscriber implements EventSubscriberInterface {
+class PingbackSendSubscriber implements EventSubscriberInterface {
 
   /**
    * Agent.
